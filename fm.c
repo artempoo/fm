@@ -24,15 +24,13 @@ typedef struct {
 void draw_column(int width_col, int term_char_index, int full_width, DataBuffers buf) {
   // здесь необходимо разделить экран на три колонки, чтобы удобно заполнять новые строки в будущем
   int index_cur = term_char_index % full_width;
+  int row = term_char_index / full_width;
   if (index_cur < width_col) {
     // здесь печатаем первый массив
 
-    int idx = 0;
     // нужно проверить не выходим ли за пределы буффера строк
-    if (index_cur < buf.size_buf1) {
-      int len = buf.buf_col1[index_cur].len;
-      char name_c = buf.buf_col1[index_cur].name[idx];
-      printf("\n%c\n\n", name_c);
+    if (row < buf.size_buf1) {
+      int len = buf.buf_col1[row].len;
 
       // printf("\n\n index_cur: %d, buf.size_buf1: %d \n\n ", index_cur, buf.size_buf1);
       // printf("\n\n len name: %d, index name: %d \n\n ", len, idx);
@@ -41,10 +39,9 @@ void draw_column(int width_col, int term_char_index, int full_width, DataBuffers
       if (index_cur < len) {
         // printf("char: %c\n\n", buf.buf_col1[index_cur].name[idx]);
 
-        printf("%c", name_c);
-        idx++;
+        printf("%c", buf.buf_col1[row].name[index_cur]);
       } else {
-        printf(".");
+        printf("_");
       }
     } else {
       // Если вышли за пределы, нужно печатать пустые строки
